@@ -1,0 +1,8 @@
+{
+    "deferralsWelcomeMessage": "`Olá ${name}. Estamos confirmando seu STEAMID.`",
+    "deferralscreateNewUser": "`Usuário não encontrado, criando usuário`",
+    "deferralsError" : "`Ocorreu um erro na sua tentativa de login, encaminhe o erro a administração: ${err}`",
+    "deferralsFirstLogin" : "`Parece que é seu primeiro login, envie para a equipe de administração o seu ID: ${User._id}`",
+    "deferralsCharacterLoad" : "`Achamos você aqui! Aguarde um momento enquanto carregamos seus personagens.`",
+    "deferralsUserBanned" : "`Não foi possível realizar o login. Usuário Banido do Servidor`",
+}

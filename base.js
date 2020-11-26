@@ -1,4 +1,5 @@
 const UserModel = require('./database/model/User')
+const location = require('./language/pt-br.json')
 
 const getsteamIdentifier = () => {
     
@@ -21,7 +22,7 @@ const getsteamIdentifier = () => {
     on('playerConnecting', async(name, setKickReason, deferrals) => {
         deferrals.defer()
 
-        deferrals.update(`Olá ${name}. Estamos confirmando seu STEAMID.`)
+        deferrals.update(location.deferralsWelcomeMessage);
         
         let source = global.source
 
@@ -29,7 +30,7 @@ const getsteamIdentifier = () => {
         const User =  await UserModel.findOne({ steamId: steamIdentifier }).populate('characters').exec()
 
         if(!User) {
-            deferrals.update(`Usuário não encontrado, criando usuário`)
+            deferrals.update(location.deferralsCreateNewUser)
 
             const User = new UserModel({
                 steamId: steamIdentifier,
@@ -40,18 +41,18 @@ const getsteamIdentifier = () => {
             })
 
             User.save(function (err) {
-                if (err) return deferrals.done(`Deu merda passa esse erro para um administrador: ${err}`)
+                if (err) return deferrals.done(location.deferralsError)
 
-                deferrals.done(`Parece que é seu primeiro login envie para a equipe de administração o seu ID: ${User._id}`)
+                deferrals.done(location.deferralsFirstLogin)
             })
 
         } else {
 
-            deferrals.update(`Achamos você aqui agora aguarda um pouco que eu vou puxar seus personagens`)
+            deferrals.update(location.deferralsCharacterLoad)
 
-            if(User.banned) return deferrals.done(`Brow tu come merda? Tu chitou no bonde do cebola e quer aparecer aqui com essa cara lavada, vai dar esse cu!`)
+            if(User.banned) return deferrals.done(location.deferralsUserBanned)
 
-            if(!User.whitelisted) return deferrals.done(`Parece que é seu primeiro login envie para a equipe de administração o seu ID: ${User._id}`)
+            if(!User.whitelisted) return deferrals.done(location.deferralsFirstLogin)
             
             if(User.characters.length < 1) {
                 emit("vRP:playerJoin", steamIdentifier, source)
